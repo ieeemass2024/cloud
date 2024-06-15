@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.item.mapper.ItemMapper">
+
+    <resultMap id="ItemResultMap" type="com.example.item.model.Item">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="category" property="category" />
+        <result column="description" property="description" />
+        <result column="stock" property="stock" />
+        <result column="price" property="price" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="order_id" property="orderId" />
+    </resultMap>
+
+    <select id="selectItemById" resultMap="ItemResultMap">
+        SELECT * FROM items WHERE id = #{id}
+    </select>
+
+    <select id="selectAllItems" resultMap="ItemResultMap">
+        SELECT * FROM items
+    </select>
+    
+    <select id="selectItemsByOrderId" parameterType="int" resultMap="ItemResultMap">
+        SELECT * FROM items WHERE order_id = #{orderId}
+    </select>
+
+    <insert id="insertItem" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO items (name, category, description, stock, price, create_time, update_time, order_id)
+        VALUES (#{name}, #{category}, #{description}, #{stock}, #{price}, #{createTime}, #{updateTime}, #{orderId})
+    </insert>
+
+
+
+    <update id="updateItem">
+        UPDATE items
+        SET name = #{name}, category = #{category}, description = #{description}, stock = #{stock}, price = #{price}, update_time = #{updateTime}, order_id = #{orderId}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteItem">
+        DELETE FROM items WHERE id = #{id}
+    </delete>
+
+</mapper>

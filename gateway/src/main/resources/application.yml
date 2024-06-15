@@ -1,0 +1,81 @@
+server:
+  port: 8088
+
+spring:
+  main:
+    web-application-type: reactive
+  application:
+    name: gateway
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          public-key-location: classpath:public_key.pem
+
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      routes:
+#        - id: warehouse-service-route
+#          uri: lb://warehouse-service
+#          predicates:
+#            - Path=/items/**
+#          filters:
+#            - RemoveRequestHeader=Cookie
+#        - id: logistics-service-route
+#          uri: lb://logistics-service
+#          predicates:
+#            - Path=/logistics/**
+#          filters:
+#            - RemoveRequestHeader=Cookie
+#        - id: payment-service-route
+#          uri: lb://payment-service
+#          predicates:
+#            - Path=/payments/**
+#          filters:
+#            - RemoveRequestHeader=Cookie
+        - id: crm-service-route
+          uri: lb://crm-service
+          predicates:
+            - Path=/crm/**
+          filters:
+            - RemoveRequestHeader=Cookie
+        - id: oauth-service-route
+          uri: lb://oauth-service
+          predicates:
+            - Path=/login/**
+          filters:
+            - RemoveRequestHeader=Cookie
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/test?useSSL=false
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: root12345
+    initial-size: 10
+    max-active: 20
+    max-idle: 8
+    min-idle: 8
+
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    mode: HTML5
+    encoding: UTF-8
+    content-type: text/html
+    cache: false
+
+mybatis:
+  mapper-locations: classpath:mapping/*.xml
+  type-aliases-package: com.java.springboot.bean
+
+logging:
+  level:
+    org.springdoc: DEBUG

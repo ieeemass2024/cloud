@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.order.mapper.LogisticsMapper">
+  <resultMap id="LogisticsResultMap" type="com.example.order.model.Logistics">
+    <id property="logisticsId" column="logistics_id" />
+    <result property="orderId" column="order_id" />
+    <result property="shippingDate" column="shipping_date" />
+    <result property="deliveryDate" column="delivery_date" />
+    <result property="shippingAddress" column="shipping_address" />
+    <result property="deliveryStatus" column="delivery_status" />
+    <result property="carrier" column="carrier" />
+  </resultMap>
+
+  <select id="getAllLogistics" resultMap="LogisticsResultMap">
+    SELECT * FROM logistics
+  </select>
+
+  <select id="getLogisticsById" parameterType="int" resultMap="LogisticsResultMap">
+    SELECT * FROM logistics WHERE logistics_id = #{logisticsId}
+  </select>
+  
+  <select id="getLogisticsByOrderId" parameterType="int" resultMap="LogisticsResultMap">
+    SELECT * FROM logistics WHERE order_id = #{orderId}
+  </select>
+
+  <insert id="insertLogistics" parameterType="com.example.order.model.Logistics" useGeneratedKeys="true" keyProperty="logisticsId">
+    INSERT INTO logistics (order_id, shipping_date, delivery_date, shipping_address, delivery_status, carrier)
+    VALUES (#{orderId}, #{shippingDate}, #{deliveryDate}, #{shippingAddress}, #{deliveryStatus}, #{carrier})
+  </insert>
+
+  <update id="updateLogistics" parameterType="com.example.order.model.Logistics">
+    UPDATE logistics
+    SET order_id=#{orderId}, shipping_date=#{shippingDate}, delivery_date=#{deliveryDate},
+    shipping_address=#{shippingAddress}, delivery_status=#{deliveryStatus}, carrier=#{carrier}
+    WHERE logistics_id=#{logisticsId}
+  </update>
+
+  <delete id="deleteLogistics" parameterType="int">
+    DELETE FROM logistics WHERE logistics_id=#{logisticsId}
+  </delete>
+</mapper>

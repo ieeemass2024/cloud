@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: config-server
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/ieeemass2024/config-repo  # 配置仓库的 URL
+          default-label: master
+
+server:
+  port: 8888
